@@ -16,7 +16,14 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     MainViewController *mainViewController = [[MainViewController alloc] init];
-    self.window.rootViewController = mainViewController;
+    mainViewController.navigationItem.title = @"主菜单";
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:mainViewController];
+    
+    if ([[UIDevice currentDevice].systemVersion floatValue] < 6.0) {
+        [self.window addSubview:navigationController.view];
+    }else{
+        [self.window setRootViewController:navigationController];
+    }
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
