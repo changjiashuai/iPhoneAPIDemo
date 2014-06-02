@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "DetailsViewController.h"
 
 @interface MainViewController ()
 
@@ -69,6 +70,64 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    switch (indexPath.row) {
+        case 0:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithActionSheet] animated:YES];
+            break;
+        case 1:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithActivityIndicator] animated:YES];
+            break;
+        case 2:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithAlertView] animated:YES];
+            break;
+        case 3:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithButton] animated:YES];
+            break;
+        case 4:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithDatePicker] animated:YES];
+            break;
+        case 5:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithImageView] animated:YES];
+            break;
+        case 6:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithPageControl] animated:YES];
+            break;
+        case 7:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithPickerView] animated:YES];
+            break;
+        case 8:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithProgressView] animated:YES];
+            break;
+        case 9:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithSegmentedControl] animated:YES];
+            break;
+        case 10:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithSlider] animated:YES];
+            break;
+        case 11:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithStepper] animated:YES];
+            break;
+        case 12:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithSwitch] animated:YES];
+            break;
+        case 13:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithTextField] animated:YES];
+            break;
+        case 14:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithTextView] animated:YES];
+            break;
+        case 15:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithWebView] animated:YES];
+            break;
+        case 16:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithSearchBar] animated:YES];
+            break;
+        case 17:
+            [self.navigationController pushViewController:[[DetailsViewController alloc] initWithToolBar] animated:YES];
+            break;
+        default:
+            break;
+    }
     
 }
 

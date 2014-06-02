@@ -8,6 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsViewController : UIViewController
+@interface DetailsViewController : UIViewController <UIActionSheetDelegate>
+
+-(instancetype)initWithActionSheet;
+-(instancetype)initWithActivityIndicator;
+-(instancetype)initWithAlertView;
+-(instancetype)initWithButton;
+-(instancetype)initWithDatePicker;
+-(instancetype)initWithImageView;
+-(instancetype)initWithPageControl;
+-(instancetype)initWithPickerView;
+-(instancetype)initWithProgressView;
+-(instancetype)initWithSegmentedControl;
+-(instancetype)initWithSlider;
+-(instancetype)initWithStepper;
+-(instancetype)initWithSwitch;
+-(instancetype)initWithTextField;
+-(instancetype)initWithTextView;
+-(instancetype)initWithWebView;
+-(instancetype)initWithSearchBar;
+-(instancetype)initWithToolBar;
+
 
 @end
