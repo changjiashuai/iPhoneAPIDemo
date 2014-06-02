@@ -19,6 +19,7 @@
 		6B0B4636193C1FE300A96ABD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B0B461E193C1FE300A96ABD /* UIKit.framework */; };
 		6B0B463E193C1FE300A96ABD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6B0B463C193C1FE300A96ABD /* InfoPlist.strings */; };
 		6B0B4640193C1FE300A96ABD /* iPhoneAPIDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B463F193C1FE300A96ABD /* iPhoneAPIDemoTests.m */; };
+		6B0B464B193C20DA00A96ABD /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B0B464A193C20DA00A96ABD /* MainViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		6B0B463B193C1FE300A96ABD /* iPhoneAPIDemoTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iPhoneAPIDemoTests-Info.plist"; sourceTree = "<group>"; };
 		6B0B463D193C1FE300A96ABD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		6B0B463F193C1FE300A96ABD /* iPhoneAPIDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iPhoneAPIDemoTests.m; sourceTree = "<group>"; };
+		6B0B4649193C20DA00A96ABD /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		6B0B464A193C20DA00A96ABD /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +114,8 @@
 				6B0B462A193C1FE300A96ABD /* AppDelegate.m */,
 				6B0B462C193C1FE300A96ABD /* Images.xcassets */,
 				6B0B4621193C1FE300A96ABD /* Supporting Files */,
+				6B0B4649193C20DA00A96ABD /* MainViewController.h */,
+				6B0B464A193C20DA00A96ABD /* MainViewController.m */,
 			);
 			path = iPhoneAPIDemo;
 			sourceTree = "<group>";
@@ -240,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B0B462B193C1FE300A96ABD /* AppDelegate.m in Sources */,
+				6B0B464B193C20DA00A96ABD /* MainViewController.m in Sources */,
 				6B0B4627193C1FE300A96ABD /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
