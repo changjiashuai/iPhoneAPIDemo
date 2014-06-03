@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsViewController : UIViewController <UIActionSheetDelegate>
+@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate>
 
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;

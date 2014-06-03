@@ -145,9 +145,98 @@
     if (self = [super init]) {
         //
         self.navigationItem.title = @"AlertView";
+        
+        UIButton *simpleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        simpleButton.frame = CGRectMake(0, 80, 320, 40);
+        [simpleButton setTitle:@"SimpleAlert" forState:UIControlStateNormal];
+        [simpleButton addTarget:self action:@selector(showSimpleAlert) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:simpleButton];
+        
+        UIButton *okCancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        okCancelButton.frame = CGRectMake(0, 120, 320, 40);
+        [okCancelButton setTitle:@"OkCancelAlert" forState:UIControlStateNormal];
+        [okCancelButton addTarget:self action:@selector(showOkCancelAlert) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:okCancelButton];
+        
+        UIButton *otherButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        otherButton.frame = CGRectMake(0, 160, 320, 40);
+        [otherButton setTitle:@"OtherAlert" forState:UIControlStateNormal];
+        [otherButton addTarget:self action:@selector(showOtherAlert) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:otherButton];
+        
+        UIButton *textEntryButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        textEntryButton.frame = CGRectMake(0, 200, 320, 40);
+        [textEntryButton setTitle:@"TextEntryAlert" forState:UIControlStateNormal];
+        [textEntryButton addTarget:self action:@selector(showTextEntryAlert) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:textEntryButton];
+        
+        UIButton *secureTextEntryButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        secureTextEntryButton.frame = CGRectMake(0, 240, 320, 40);
+        [secureTextEntryButton setTitle:@"SecureTextEntryAlert" forState:UIControlStateNormal];
+        [secureTextEntryButton addTarget:self action:@selector(showSecureTextEntryAlert) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:secureTextEntryButton];
     }
     return self;
 }
+
+-(void)showSimpleAlert
+{
+    NSString *title = NSLocalizedString(@"A Short Title", nil);
+    NSString *message = NSLocalizedString(@"A message", nil);
+    NSString *cancelButtonTitle = NSLocalizedString(@"OK", nil);
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelButtonTitle otherButtonTitles:@"ohter", nil];
+    [alertView show];
+}
+
+-(void)showOkCancelAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Title" message:@"Message" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    [alertView show];
+}
+
+-(void)showOtherAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Title" message:@"Message" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"Ohter One",@"Ohter Two", nil];
+    [alertView show];
+}
+
+-(void)showTextEntryAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Title" message:@"Message" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+}
+
+-(void)showSecureTextEntryAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Title" message:@"Message" delegate:self cancelButtonTitle:@"cancel" otherButtonTitles:@"OK", nil];
+    alertView.alertViewStyle = UIAlertViewStyleSecureTextInput;
+    [alertView show];
+}
+
+#pragma mark - UIAlertViewDelegate
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView.cancelButtonIndex == buttonIndex) {
+        NSLog(@"Alert view clicked with the cancel button index");
+    }else{
+        NSLog(@"Alert view clicked with button at index %ld", (long)buttonIndex);
+    }
+}
+
+-(BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    //强制返回5个字符为Secure Text
+    if (alertView.alertViewStyle == UIAlertViewStyleSecureTextInput) {
+        return [[alertView textFieldAtIndex:0].text length] >= 5;
+    }
+    return YES;
+}
+
+
+#pragma mark - Button
 
 -(instancetype)initWithButton
 {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B0998E8193D9CA9009019B3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6B0998EA193D9CA9009019B3 /* Localizable.strings */; };
 		6B0B461B193C1FE300A96ABD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B0B461A193C1FE300A96ABD /* Foundation.framework */; };
 		6B0B461D193C1FE300A96ABD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B0B461C193C1FE300A96ABD /* CoreGraphics.framework */; };
 		6B0B461F193C1FE300A96ABD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B0B461E193C1FE300A96ABD /* UIKit.framework */; };
@@ -34,6 +35,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B0998E4193D9B82009019B3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6B0998E5193D9B82009019B3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6B0998E9193D9CA9009019B3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6B0998EB193D9CBC009019B3 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		6B0B4617193C1FE300A96ABD /* iPhoneAPIDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhoneAPIDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B0B461A193C1FE300A96ABD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6B0B461C193C1FE300A96ABD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -132,6 +137,7 @@
 				6B0B4623193C1FE300A96ABD /* InfoPlist.strings */,
 				6B0B4626193C1FE300A96ABD /* main.m */,
 				6B0B4628193C1FE300A96ABD /* iPhoneAPIDemo-Prefix.pch */,
+				6B0998EA193D9CA9009019B3 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -212,6 +218,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				"zh-Hans",
 			);
 			mainGroup = 6B0B460E193C1FE300A96ABD;
 			productRefGroup = 6B0B4618193C1FE300A96ABD /* Products */;
@@ -230,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6B0B4625193C1FE300A96ABD /* InfoPlist.strings in Resources */,
+				6B0998E8193D9CA9009019B3 /* Localizable.strings in Resources */,
 				6B0B462D193C1FE300A96ABD /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,10 +283,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		6B0998EA193D9CA9009019B3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6B0998E9193D9CA9009019B3 /* en */,
+				6B0998EB193D9CBC009019B3 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		6B0B4623193C1FE300A96ABD /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				6B0B4624193C1FE300A96ABD /* en */,
+				6B0998E4193D9B82009019B3 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -287,6 +305,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6B0B463D193C1FE300A96ABD /* en */,
+				6B0998E5193D9B82009019B3 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -449,6 +468,7 @@
 				6B0B4645193C1FE300A96ABD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6B0B4646193C1FE300A96ABD /* Build configuration list for PBXNativeTarget "iPhoneAPIDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -457,6 +477,7 @@
 				6B0B4648193C1FE300A96ABD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
