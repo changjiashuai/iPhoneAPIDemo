@@ -373,6 +373,24 @@
     if (self = [super init]) {
         //
         self.navigationItem.title = @"ImageView";
+        UIImageView *imageView = [[UIImageView alloc] init];
+        imageView.frame = CGRectMake(0, 0, 320, self.view.frame.size.height);
+        imageView.animationImages = @[
+            [UIImage imageNamed:@"image_animal_1"],
+            [UIImage imageNamed:@"image_animal_2"],
+            [UIImage imageNamed:@"image_animal_3"],
+            [UIImage imageNamed:@"image_animal_4"],
+            [UIImage imageNamed:@"image_animal_5"],
+        ];
+        
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        imageView.backgroundColor = [UIColor whiteColor];
+        imageView.animationDuration = 5;
+        [imageView startAnimating];
+        
+        imageView.isAccessibilityElement = YES;
+        imageView.accessibilityLabel = @"Animated";
+        [self.view addSubview:imageView];
     }
     return self;
 }
