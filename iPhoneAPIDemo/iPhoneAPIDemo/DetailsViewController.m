@@ -339,18 +339,40 @@
         //
         self.navigationItem.title = @"Date Picker";
         
-        UIDatePicker *datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 100, 320, 216)];
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        _dateFormatter.dateStyle = NSDateFormatterMediumStyle;
+        _dateFormatter.timeStyle = NSDateFormatterShortStyle;
+
         
-        [self.view addSubview:datePicker];
+        _dateLabel = [[UILabel alloc] init];
+        _dateLabel.frame = CGRectMake(0, 400, 320, 40);
+        _dateLabel.textAlignment = UITextAlignmentCenter;
+        [self.view addSubview:_dateLabel];
+
+        
+        _datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 100, 320, 216)];
+        [_datePicker addTarget:self action:@selector(updateDatePickerLabel) forControlEvents:UIControlEventValueChanged];
+        [self.view addSubview:_datePicker];
+        [self updateDatePickerLabel];
+        
     }
     return self;
 }
+
+-(void)updateDatePickerLabel
+{
+    _dateLabel.text = [self.dateFormatter stringFromDate:self.datePicker.date];
+}
+
+
+
+#pragma mark - ImageView
 
 -(instancetype)initWithImageView
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"ImageView";
     }
     return self;
 }

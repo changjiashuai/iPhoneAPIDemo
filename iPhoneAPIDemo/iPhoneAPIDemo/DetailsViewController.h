@@ -10,6 +10,10 @@
 
 @interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate>
 
+@property (nonatomic, strong) UIDatePicker *datePicker;
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
+@property (nonatomic, strong) UILabel *dateLabel;
+
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;
 -(instancetype)initWithAlertView;
