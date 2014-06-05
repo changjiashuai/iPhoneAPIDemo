@@ -8,11 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate>
+@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
 
+#pragma mark - DatePicker
 @property (nonatomic, strong) UIDatePicker *datePicker;
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @property (nonatomic, strong) UILabel *dateLabel;
+
+#pragma mark - PageControl
+@property (nonatomic, strong) UIScrollView *helpScrView;
+@property (nonatomic, strong) UIPageControl *pageCtrl;
 
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;

@@ -30,15 +30,6 @@
     UIView *view = [[UIView alloc] initWithFrame:applicationFrame];
     view.backgroundColor = [UIColor whiteColor];
     self.view = view;
-    
-    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, 320, applicationFrame.size.height - 64)];
-    NSLog(@"%f",applicationFrame.size.height - 64);
-    scrollView.contentSize = CGSizeMake(320, 640);
-//    scrollView.delegate = self;
-//    scrollView.pagingEnabled = YES;
-//    scrollView.showsHorizontalScrollIndicator = NO;
-//    scrollView.showsVerticalScrollIndicator = NO;
-    [self.view addSubview:scrollView];
 }
 
 #pragma mark - Action Sheet
@@ -365,7 +356,6 @@
 }
 
 
-
 #pragma mark - ImageView
 
 -(instancetype)initWithImageView
@@ -395,13 +385,74 @@
     return self;
 }
 
+
+#pragma mark - PageControl
+
 -(instancetype)initWithPageControl
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"PageControll";
+        CGRect bounds = self.view.frame; //获取界面区域
+        
+        bounds.origin.y = 0.0f;
+        
+        //加载蒙版图片
+        //创建UIImageView，位置大小与主界面一样
+        UIImageView *imageView1 = [[UIImageView alloc] initWithFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)];
+        [imageView1 setBackgroundColor:[UIColor redColor]];
+        imageView1.alpha = 0.5f;//透明度设为50%
+        
+        UIImageView *imageView2 = [[UIImageView alloc] initWithFrame:CGRectMake(bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.size.width, bounds.size.height)];
+        [imageView2 setBackgroundColor:[UIColor greenColor]];
+        imageView2.alpha = 0.5f;//透明度设为50%
+        
+        UIImageView *imageView3 = [[UIImageView alloc] initWithFrame:CGRectMake(bounds.origin.x + bounds.size.width * 2, bounds.origin.y, bounds.size.width, bounds.size.height)];
+        [imageView3 setBackgroundColor:[UIColor blueColor]];
+        imageView3.alpha = 0.5f;//透明度设为50%
+        
+        //创建UIScrollView，位置大小与主界面一样
+        _helpScrView = [[UIScrollView alloc] initWithFrame:CGRectMake(bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height)];
+        //设置全部内容尺寸，这里帮助图片是3张，所以设置宽度为界面宽度 * 3，高度和界面一致。
+        [_helpScrView setContentSize:CGSizeMake(bounds.size.width * 3, bounds.size.height)];
+        _helpScrView.pagingEnabled = YES; //设置为YES，会按页滑动
+        _helpScrView.bounces = NO; //取消UIScrollView的弹性属性
+        [_helpScrView setDelegate:self];  //设置代理
+        _helpScrView.showsHorizontalScrollIndicator = NO; //使用UIPageControl表示页面进度，取消水平滚动条
+        [_helpScrView addSubview:imageView1];  //将UIImageView添加到UIScrollView中
+        [_helpScrView addSubview:imageView2];
+        [_helpScrView addSubview:imageView3];
+        [self.view addSubview:_helpScrView]; //将UIScrollView添加到主界面上
+        
+        //创建UIPageControl,在屏幕最下方
+        _pageCtrl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, bounds.size.height - 100, bounds.size.width, 30)];
+        _pageCtrl.numberOfPages = 3; //总的图片页数
+        _pageCtrl.currentPage = 0;   //当前页
+        [_pageCtrl addTarget:self action:@selector(pageTurn:) forControlEvents:UIControlEventValueChanged];  //用户点击UIPageControl的响应函数
+        [self.view addSubview:_pageCtrl];  //将UIPageControl添加到主界面上
+        
+        
     }
     return self;
+}
+
+-(void)pageTurn:(UIPageControl *)pageCtrl
+{
+    //令UIScrollView做出响应的滑动显示
+    CGSize viewSize = _helpScrView.frame.size;
+    CGRect rect = CGRectMake(pageCtrl.currentPage * viewSize.width, 0, viewSize.width, viewSize.height);
+    [_helpScrView scrollRectToVisible:rect animated:YES];
+}
+
+#pragma mark - UIScrollViewDelegate Method
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    //用户滑动页面停下后调用
+    //更新UIPageControl的当前页
+    CGPoint offset = scrollView.contentOffset;
+    CGRect bounds = scrollView.frame;
+    [_pageCtrl setCurrentPage:offset.x / bounds.size.width];
 }
 
 -(instancetype)initWithPickerView
@@ -508,6 +559,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.edgesForExtendedLayout = UIRectEdgeNone;
 }
 
 - (void)didReceiveMemoryWarning
