@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate>
+#pragma mark - PickerView
+typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
+    ColorComponentRed = 0,
+    ColorComponentGreen,
+    ColorComponentBlue,
+    ColorComponentCount
+};
+
+
+@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 
 #pragma mark - DatePicker
 @property (nonatomic, strong) UIDatePicker *datePicker;
@@ -19,6 +28,15 @@
 @property (nonatomic, strong) UIScrollView *helpScrView;
 @property (nonatomic, strong) UIPageControl *pageCtrl;
 
+#pragma mark - PickerView
+@property (nonatomic, strong) UIPickerView *pickerView;
+@property (nonatomic, strong) UIView *colorSwatchView;
+
+@property (nonatomic, assign) CGFloat redColorComponent;
+@property (nonatomic, assign) CGFloat greenColorComponent;
+@property (nonatomic, assign) CGFloat blueColorComponent;
+
+#pragma mark -
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;
 -(instancetype)initWithAlertView;

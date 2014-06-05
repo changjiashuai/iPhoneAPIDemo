@@ -455,13 +455,151 @@
     [_pageCtrl setCurrentPage:offset.x / bounds.size.width];
 }
 
+
+#pragma mark - PickerView
+
 -(instancetype)initWithPickerView
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"Picker View";
+        _pickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 30, 320, 162)];
+        self.pickerView.delegate = self;
+        self.pickerView.dataSource = self;
+        self.pickerView.showsSelectionIndicator = YES;
+        [self.view addSubview:_pickerView];
+        [self configurePickerView];
+        
+        _colorSwatchView = [[UIView alloc] initWithFrame:CGRectMake(20, 200, 280, 300)];
+        _colorSwatchView.backgroundColor = [UIColor redColor];
+        [self.view addSubview:_colorSwatchView];
     }
     return self;
+}
+
+//颜色偏移值
+- (NSInteger)colorValueOffset
+{
+    return 5;
+}
+
+- (NSInteger)numberOfColorValuesPerComponent
+{
+    return (NSInteger)ceil(255.0 / (CGFloat)[self colorValueOffset]) + 1;
+}
+
+- (void)updateColorSwatchViewBackgroundColor
+{
+    self.colorSwatchView.backgroundColor = [UIColor colorWithRed:self.redColorComponent green:self.greenColorComponent blue:self.blueColorComponent alpha:1];
+}
+
+#pragma mark - Configureation
+
+-(void)configurePickerView
+{
+    [self selectRowInPickerView:13 withColorComponent:ColorComponentRed];
+    [self selectRowInPickerView:41 withColorComponent:ColorComponentGreen];
+    [self selectRowInPickerView:24 withColorComponent:ColorComponentBlue];
+}
+
+-(void)selectRowInPickerView:(NSInteger)row withColorComponent:(PickerViewControllerColorComponent)colorComponent
+{
+    [self.pickerView selectRow:row inComponent:(NSInteger)colorComponent animated:YES];
+    [self pickerView:self.pickerView didSelectRow:row inComponent:(NSInteger)colorComponent];
+}
+
+#pragma mark - RGB Color Setter Overrides
+
+- (void)setRedColorComponent:(CGFloat)redColorComponent
+{
+    if (_redColorComponent != redColorComponent) {
+        _redColorComponent = redColorComponent;
+        [self updateColorSwatchViewBackgroundColor];
+    }
+}
+
+- (void)setGreenColorComponent:(CGFloat)greenColorComponent
+{
+    if (_greenColorComponent != greenColorComponent) {
+        _greenColorComponent = greenColorComponent;
+        [self updateColorSwatchViewBackgroundColor];
+    }
+}
+
+- (void)setBlueColorComponent:(CGFloat)blueColorComponent
+{
+    if (_blueColorComponent != blueColorComponent) {
+        _blueColorComponent = blueColorComponent;
+        [self updateColorSwatchViewBackgroundColor];
+    }
+}
+
+#pragma mark - UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return ColorComponentCount;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return [self numberOfColorValuesPerComponent];
+}
+
+#pragma mark - UIPickerViewDelegate
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSInteger colorValue = row * [self colorValueOffset];
+    
+    CGFloat colorComponent = (CGFloat)colorValue / 255.0;
+    CGFloat redColorComponent = 0;
+    CGFloat greenColorComponent = 0;
+    CGFloat blueColorComponent = 0;
+    
+    switch (component) {
+        case ColorComponentRed:
+            redColorComponent = colorComponent;
+            break;
+        case ColorComponentGreen:
+            greenColorComponent = colorComponent;
+            break;
+        case ColorComponentBlue:
+            blueColorComponent = colorComponent;
+            break;
+            
+        default:
+            NSLog(@"Invalid row/component");
+            break;
+    }
+    
+    UIColor *foregroundColor = [UIColor colorWithRed:redColorComponent green:greenColorComponent blue:blueColorComponent alpha:1];
+    
+    NSString *titleText = [NSString stringWithFormat:@"%ld", (long)colorValue];
+    
+    NSDictionary *attributes = @{NSForegroundColorAttributeName: foregroundColor};
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:titleText attributes:attributes];
+    return title;
+}
+
+-(void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    CGFloat colorComponentValue = ((CGFloat)[self colorValueOffset] * row) / 255.0;
+    
+    switch (component) {
+        case ColorComponentRed:
+            self.redColorComponent = colorComponentValue;
+            break;
+        case ColorComponentGreen:
+            self.greenColorComponent = colorComponentValue;
+            break;
+        case ColorComponentBlue:
+            self.blueColorComponent = colorComponentValue;
+            break;
+            
+        default:
+            break;
+    }
 }
 
 -(instancetype)initWithProgressView
