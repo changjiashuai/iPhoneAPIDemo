@@ -50,6 +50,11 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 @property (nonatomic, strong) UISegmentedControl *customSegmentsSegmentedControl;
 @property (nonatomic, strong) UISegmentedControl *customBackgroundSegmentedControl;
 
+#pragma mark - Slider
+@property (nonatomic, strong) UISlider *defaultSlider;
+@property (nonatomic, strong) UISlider *tintedSlider;
+@property (nonatomic, strong) UISlider *customSlider;
+
 #pragma mark -
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;

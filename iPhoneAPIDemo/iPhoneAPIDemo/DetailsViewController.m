@@ -783,14 +783,74 @@
 }
 
 
+#pragma mark - Slider
+
 -(instancetype)initWithSlider
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"Slider";
+        [self configureDefaultSlider];
+        [self configureTintedSlider];
+        [self configureCustomSlider];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void)configureDefaultSlider
+{
+    self.defaultSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 30, 320, 40)];
+    self.defaultSlider.minimumValue = 0;
+    self.defaultSlider.maximumValue = 100;
+    self.defaultSlider.value = 42;
+    self.defaultSlider.continuous = YES;
+    
+    [self.defaultSlider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:self.defaultSlider];
+}
+
+-(void)configureTintedSlider
+{
+    self.tintedSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 80, 320, 40)];
+    self.tintedSlider.minimumTrackTintColor = [UIColor orangeColor];
+    self.tintedSlider.maximumTrackTintColor = [UIColor purpleColor];
+    [self.tintedSlider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.tintedSlider];
+}
+
+-(void)configureCustomSlider
+{
+    self.customSlider = [[UISlider alloc] initWithFrame:CGRectMake(0, 130, 320, 40)];
+    UIImage *leftTrackImage = [UIImage imageNamed:@"slider_blue_track"];
+    [self.customSlider setMinimumTrackImage:leftTrackImage forState:UIControlStateNormal];
+    
+    UIImage *rightTrackImage = [UIImage imageNamed:@"slider_green_track"];
+    [self.customSlider setMaximumTrackImage:rightTrackImage forState:UIControlStateNormal];
+    
+    UIImage *thumbImage = [UIImage imageNamed:@"slider_thumb"];
+    [self.customSlider setThumbImage:thumbImage forState:UIControlStateNormal];
+    
+    self.customSlider.minimumValue = 0;
+    self.customSlider.maximumValue = 100;
+    self.customSlider.continuous = NO;
+    self.customSlider.value = 84;
+    
+    [self.customSlider addTarget:self action:@selector(sliderValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.customSlider];
+}
+
+#pragma mark - Slider Actions
+
+- (void)sliderValueDidChange:(UISlider *)slider
+{
+    NSLog(@"A slider changed its value: %@", slider);
+}
+
+
+#pragma mark - Stepper
 
 -(instancetype)initWithStepper
 {
