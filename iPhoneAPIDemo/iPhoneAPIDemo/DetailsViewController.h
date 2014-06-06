@@ -36,6 +36,14 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 @property (nonatomic, assign) CGFloat greenColorComponent;
 @property (nonatomic, assign) CGFloat blueColorComponent;
 
+#pragma mark - ProgressView
+@property (nonatomic, strong) UIProgressView *defaultStyleProgressView;
+@property (nonatomic, strong) UIProgressView *barStyleProgressView;
+@property (nonatomic, strong) UIProgressView *tintedProgressView;
+
+@property (nonatomic) NSOperationQueue *operationQueue;
+@property (nonatomic) NSUInteger completedProgress;
+
 #pragma mark -
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;

@@ -536,11 +536,26 @@
 
 #pragma mark - UIPickerViewDataSource
 
+/**
+ *  显示3列
+ *
+ *  @param pickerView 当前控件
+ *
+ *  @return 返回列数
+ */
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
 {
     return ColorComponentCount;
 }
 
+/**
+ *  每列有多少行数据
+ *
+ *  @param pickerView 当前控件
+ *  @param component  当前列
+ *
+ *  @return 返回每列的行数
+ */
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
 {
     return [self numberOfColorValuesPerComponent];
@@ -602,14 +617,81 @@
     }
 }
 
+
+#pragma mark - Progress View
+
 -(instancetype)initWithProgressView
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"Progress View";
+        self.completedProgress = 0;
+        [self configureDefaultStyleProgressView];
+        [self configureBarStyleProgressView];
+        [self configureTintedProgressView];
+        
+        [self simulateProgress];
     }
     return self;
 }
+
+#pragma mark - Overrides
+
+-(void)setCompletedProgress:(NSUInteger)completedProgress
+{
+    if (_completedProgress != completedProgress) {
+        float fractionalProgress = (float)completedProgress / 100.0f;
+        
+        [self.defaultStyleProgressView setProgress:fractionalProgress animated:YES];
+        [self.barStyleProgressView setProgress:fractionalProgress animated:YES];
+        [self.tintedProgressView setProgress:fractionalProgress animated:YES];
+        _completedProgress = completedProgress;
+    }
+}
+
+#pragma mark - Configuration
+
+-(void)configureDefaultStyleProgressView
+{
+    _defaultStyleProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 30, 320, 40)];
+    _defaultStyleProgressView.progressViewStyle = UIProgressViewStyleDefault;
+    [self.view addSubview:_defaultStyleProgressView];
+}
+
+-(void)configureBarStyleProgressView
+{
+    _barStyleProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 80, 320, 40)];
+    _barStyleProgressView.progressViewStyle = UIProgressViewStyleBar;
+    [self.view addSubview:_barStyleProgressView];
+}
+
+-(void)configureTintedProgressView
+{
+    _tintedProgressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 130, 320, 40)];
+    _tintedProgressView.progressViewStyle = UIProgressViewStyleDefault;
+    _tintedProgressView.trackTintColor = [UIColor colorWithRed:0.413 green:0.298 blue:1.000 alpha:1.000];
+    _tintedProgressView.progressTintColor = [UIColor colorWithRed:0.413 green:0.298 blue:1.000 alpha:1.000];
+    [self.view addSubview:_tintedProgressView];
+}
+
+#pragma mark - Progress Simulation
+
+-(void)simulateProgress
+{
+    self.operationQueue = [[NSOperationQueue alloc] init];
+    
+    for (NSUInteger count = 0; count < 100; count++) {
+        [self.operationQueue addOperationWithBlock:^{
+            sleep(arc4random_uniform(10));
+            [[NSOperationQueue mainQueue] addOperationWithBlock:^{
+                self.completedProgress++;
+            }];
+        }];
+    }
+}
+
+
+#pragma mark - SegmentControl
 
 -(instancetype)initWithSegmentedControl
 {
