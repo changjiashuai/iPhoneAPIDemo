@@ -697,10 +697,91 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"SegmentControl";
+        [self configureDefaultSegmentedControl];
+        [self configureTintedSegmentedControl];
+        [self configureCustomSegmentsSegmentedControl];
+        [self configureCustomBackgroundSegmentedControl];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void)configureDefaultSegmentedControl
+{
+    _defaultSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"one", @"two", @"three"]];
+    self.defaultSegmentedControl.frame = CGRectMake(0, 30, 320, 40);
+    self.defaultSegmentedControl.momentary = YES;
+    [self.defaultSegmentedControl setEnabled:NO forSegmentAtIndex:0];
+    [self.defaultSegmentedControl addTarget:self action:@selector(selectedSegmentDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_defaultSegmentedControl];
+}
+
+-(void)configureTintedSegmentedControl
+{
+    _tintedSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"one", @"two", @"three"]];
+    self.tintedSegmentedControl.frame = CGRectMake(0, 80, 320, 40);
+    self.tintedSegmentedControl.tintColor = [UIColor colorWithRed:0.421 green:0.815 blue:1.000 alpha:1.000];
+    [self.tintedSegmentedControl setSelectedSegmentIndex:1];
+    [self.tintedSegmentedControl addTarget:self action:@selector(selectedSegmentDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_tintedSegmentedControl];
+}
+
+-(void)configureCustomSegmentsSegmentedControl
+{
+    self.customSegmentsSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"", @"", @""]];
+    UIImage *checkmarkImage = [UIImage imageNamed:@"checkmark_icon"];
+    [self.customSegmentsSegmentedControl setImage:checkmarkImage forSegmentAtIndex:0];
+    
+    UIImage *searchImage = [UIImage imageNamed:@"search_icon"];
+    [self.customSegmentsSegmentedControl setImage:searchImage forSegmentAtIndex:1];
+    
+    UIImage *toolsImage = [UIImage imageNamed:@"tools_icon"];
+    [self.customSegmentsSegmentedControl setImage:toolsImage forSegmentAtIndex:2];
+    
+    self.customSegmentsSegmentedControl.selectedSegmentIndex = 0;
+    [self.customSegmentsSegmentedControl addTarget:self action:@selector(selectedSegmentDidChange:) forControlEvents:UIControlEventValueChanged];
+    self.customSegmentsSegmentedControl.frame = CGRectMake(0, 130, 320, 40);
+    [self.view addSubview:_customSegmentsSegmentedControl];
+}
+
+-(void)configureCustomBackgroundSegmentedControl
+{
+    _customBackgroundSegmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"one", @"two", @"three"]];
+    
+    self.customBackgroundSegmentedControl.selectedSegmentIndex = 2;
+    self.customBackgroundSegmentedControl.frame = CGRectMake(0, 180, 320, 40);
+    
+    [self.customBackgroundSegmentedControl setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    [self.customBackgroundSegmentedControl setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background_disabled"] forState:UIControlStateDisabled barMetrics:UIBarMetricsDefault];
+    
+    [self.customBackgroundSegmentedControl setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background_highlighted"] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    
+    [self.customBackgroundSegmentedControl setDividerImage:[UIImage imageNamed:@"stepper_and_segment_segment_divider"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    
+    UIFontDescriptor *captionFontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleCaption1];
+    UIFont *font = [UIFont fontWithDescriptor:captionFontDescriptor size:0];
+    
+    NSDictionary *normalTextAttributes = @{NSForegroundColorAttributeName: [UIColor blueColor], NSFontAttributeName: font};
+    [self.customBackgroundSegmentedControl setTitleTextAttributes:normalTextAttributes forState:UIControlStateNormal];
+    
+    NSDictionary *highlightedTextAttributes = @{NSForegroundColorAttributeName: [UIColor orangeColor], NSFontAttributeName:font};
+    
+    [self.customBackgroundSegmentedControl setTitleTextAttributes:highlightedTextAttributes forState:UIControlStateHighlighted];
+    
+    [self.customBackgroundSegmentedControl addTarget:self action:@selector(selectedSegmentDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_customBackgroundSegmentedControl];
+}
+
+#pragma mark - SegmentedControl Actions
+
+- (void)selectedSegmentDidChange:(UISegmentedControl *)segmentedControl
+{
+    NSLog(@"The selected segment changed for: %@.", segmentedControl);
+}
+
 
 -(instancetype)initWithSlider
 {

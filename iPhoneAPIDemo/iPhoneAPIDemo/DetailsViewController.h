@@ -44,6 +44,12 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 @property (nonatomic) NSOperationQueue *operationQueue;
 @property (nonatomic) NSUInteger completedProgress;
 
+#pragma mark - SegmentedControl
+@property (nonatomic, strong) UISegmentedControl *defaultSegmentedControl;
+@property (nonatomic, strong) UISegmentedControl *tintedSegmentedControl;
+@property (nonatomic, strong) UISegmentedControl *customSegmentsSegmentedControl;
+@property (nonatomic, strong) UISegmentedControl *customBackgroundSegmentedControl;
+
 #pragma mark -
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;
