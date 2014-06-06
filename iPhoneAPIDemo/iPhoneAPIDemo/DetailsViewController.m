@@ -856,10 +856,79 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"Stepper";
+        [self configureDefaultStepper];
+        [self configureTintedStepper];
+        [self configureCustomStepper];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void)configureDefaultStepper
+{
+    self.defaultStepper = [[UIStepper alloc] initWithFrame:CGRectMake(100, 30, 120, 40)];
+    self.defaultStepper.minimumValue = 0;
+    self.defaultStepper.maximumValue = 10;
+    self.defaultStepper.stepValue = 1;
+    
+    self.defaultStepperLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, 26, 80, 40)];
+    self.defaultStepperLabel.text = [NSString stringWithFormat:@"%ld", (long)self.defaultStepper.value];
+    [self.defaultStepper addTarget:self action:@selector(stepperValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    
+    [self.view addSubview:self.defaultStepperLabel];
+    [self.view addSubview:self.defaultStepper];
+}
+
+-(void)configureTintedStepper
+{
+    self.tintedStepper = [[UIStepper alloc] initWithFrame:CGRectMake(100, 80, 120, 40)];
+    self.tintedStepper.tintColor = [UIColor purpleColor];
+    self.tintedStepperLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, 70, 80, 40)];
+    self.tintedStepperLabel.text = [NSString stringWithFormat:@"%ld", (long)self.tintedStepper.value];
+    [self.tintedStepper addTarget:self action:@selector(stepperValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.tintedStepperLabel];
+    [self.view addSubview:self.tintedStepper];
+}
+
+-(void)configureCustomStepper
+{
+    self.customStepper = [[UIStepper alloc] initWithFrame:CGRectMake(100, 130, 120, 40)];
+    [self.customStepper setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background"] forState:UIControlStateNormal];
+    [self.customStepper setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background_highlighted"] forState:UIControlStateHighlighted];
+    [self.customStepper setBackgroundImage:[UIImage imageNamed:@"stepper_and_segment_background_disabled"] forState:UIControlStateDisabled];
+    
+    [self.customStepper setDividerImage:[UIImage imageNamed:@"stepper_and_segment_divider"] forLeftSegmentState:UIControlStateNormal rightSegmentState:UIControlStateNormal];
+    [self.customStepper setIncrementImage:[UIImage imageNamed:@"stepper_increment"] forState:UIControlStateNormal];
+    [self.customStepper setDecrementImage:[UIImage imageNamed:@"stepper_decrement"] forState:UIControlStateNormal];
+    self.customStepperLabel = [[UILabel alloc] initWithFrame:CGRectMake(280, 120, 80, 40)];
+    self.customStepperLabel.text = [NSString stringWithFormat:@"%ld", (long)self.customStepper.value];
+    [self.customStepper addTarget:self action:@selector(stepperValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.customStepper];
+    [self.view addSubview:self.customStepperLabel];
+}
+
+#pragma mark - Stepper Actions
+
+- (void)stepperValueDidChange:(UIStepper *)stepper {
+    NSLog(@"A stepper changed its value: %@.", stepper);
+    
+    // Figure out which stepper was selected and update its associated label.
+    UILabel *stepperLabel;
+    if (self.defaultStepper == stepper) {
+        stepperLabel = self.defaultStepperLabel;
+    }
+    else if (self.tintedStepper == stepper) {
+        stepperLabel = self.tintedStepperLabel;
+    }
+    else if (self.customStepper == stepper) {
+        stepperLabel = self.customStepperLabel;
+    }
+    
+    stepperLabel.text = [NSString stringWithFormat:@"%ld", (long)stepper.value];
+}
+
 
 -(instancetype)initWithSwitch
 {
