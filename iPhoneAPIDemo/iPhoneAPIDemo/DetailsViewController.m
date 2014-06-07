@@ -1230,27 +1230,124 @@
     if (self = [super init]) {
         //
         self.navigationItem.title = @"WebView";
+        [self configureWebView];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void) configureWebView
+{
+    self.webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.webView.backgroundColor = [UIColor whiteColor];
+    self.webView.scalesPageToFit = YES;
+    self.webView.dataDetectorTypes = UIDataDetectorTypeAll;
+    self.webView.delegate = self;
+    [self.view addSubview:self.webView];
+    [self loadAddressURL];
+}
+
+-(void)loadAddressURL
+{
+    NSURL *requestURL = [NSURL URLWithString:@"http://www.apple.com"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:requestURL];
+    [self.webView loadRequest:request];
+}
+
+#pragma mark - UIWebViewDelegate
+
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    NSString *message = @"An error occured:";
+    NSString *errorFormatString = @"<!doctype html><html><body><div style=\"width: 100%%; text-align: center; font-size: 36pt;\">%@%@</div></body></html>";
+    
+    NSString *errorHTML = [NSString stringWithFormat:errorFormatString, message, error.localizedDescription];
+    [self.webView loadHTMLString:errorHTML baseURL:nil];
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+}
+
+
+#pragma mark - SearchBar
 
 -(instancetype)initWithSearchBar
 {
     if (self = [super init]) {
         //
         self.navigationItem.title = @"SearchBar";
+        
+        self.searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, 320, 40)];
+        self.searchBar.showsCancelButton = YES;
+//        self.searchBar.showsScopeBar = YES;
+//        self.searchBar.scopeButtonTitles = @[@"Scope One",@"Scope Two"];
+//        
+        self.searchBar.delegate = self;
+        [self.view addSubview:self.searchBar];
     }
     return self;
 }
+
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    NSLog(@"The default search selected scope button index changed to %ld.", (long)selectedScope);
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"The default search bar keyboard search button was tapped: %@.", searchBar.text);
+    
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"The default search bar cancel button was tapped.");
+    
+    [searchBar resignFirstResponder];
+}
+
+
+#pragma mark - ToolBar
 
 -(instancetype)initWithToolBar
 {
     if (self = [super init]) {
         //
         self.navigationItem.title = @"ToolBar";
+        
+        self.toolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 88, 320, 88)];
+        
+        UIBarButtonItem *trashBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash target:self action:@selector(barButtonItemClicked:)];
+        
+        UIBarButtonItem *flexibleSpaceBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:NULL];
+        
+        UIBarButtonItem *customTitleBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Action" style:UIBarButtonItemStylePlain target:self action:@selector(barButtonItemClicked:)];
+        
+        NSArray *toolbarButtonItems = @[trashBarButtonItem, flexibleSpaceBarButtonItem, customTitleBarButtonItem];
+        [self.toolBar setItems:toolbarButtonItems animated:YES];
+        [self.view addSubview:self.toolBar];
     }
     return self;
 }
+
+
+
+
+#pragma mark - ToolBar Actions
+
+- (void)barButtonItemClicked:(UIBarButtonItem *)barButtonItem {
+    NSLog(@"A bar button item on the default toolbar was clicked: %@.", barButtonItem);
+}
+
 
 
 - (void)viewDidLoad

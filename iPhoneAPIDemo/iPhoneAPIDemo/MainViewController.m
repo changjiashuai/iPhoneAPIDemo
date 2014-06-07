@@ -35,7 +35,7 @@
     self.tableView.delegate = self;
     [self.view addSubview:self.tableView];
     
-    self.titles = @[@"ActionSheet",@"ActivityIndicatorView",@"AlertView",@"Button",@"DatePicker",@"ImageView",@"PageControl",@"PickerView",@"ProgressView",@"SegmentedControl",@"Slider",@"Stepper",@"Switch",@"TextField",@"TextView",@"Label",@"WebView",@"SearchBar",@"Toolbar"];
+    self.titles = @[@"ActionSheet",@"ActivityIndicatorView",@"AlertView",@"Button",@"DatePicker",@"ImageView",@"PageControl",@"PickerView",@"ProgressView",@"SegmentedControl",@"Slider",@"Stepper",@"Switch",@"TextField",@"TextView",@"WebView",@"SearchBar",@"Toolbar"];
 }
 
 #pragma mark -
