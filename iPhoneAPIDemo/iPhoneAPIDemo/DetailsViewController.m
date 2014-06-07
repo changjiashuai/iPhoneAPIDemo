@@ -970,14 +970,116 @@
     NSLog(@"A switch changed its value: %@.", aSwitch);
 }
 
+
+#pragma mark - TextField
+
 -(instancetype)initWithTextField
 {
     if (self = [super init]) {
         //
         self.navigationItem.title = @"TextField";
+        
+        [self configureTextField];
+        [self configureTintedTextField];
+        [self configureSecureTextField];
+        [self configureSpecificKeyboardTextField];
+        [self configureCustomTextField];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void)configureTextField
+{
+    self.textField = [[UITextField alloc] initWithFrame:CGRectMake(0, 30, 320, 40)];
+    self.textField.placeholder = @"Placeholder text";
+    self.textField.autocorrectionType = UITextAutocorrectionTypeYes;
+    self.textField.returnKeyType = UIReturnKeyDone;
+    self.textField.clearButtonMode = UITextFieldViewModeNever;
+    self.textField.delegate = self;
+    self.textField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.textField];
+}
+
+-(void)configureTintedTextField
+{
+    self.tintedTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 80, 320, 40)];
+    self.tintedTextField.tintColor = [UIColor purpleColor];
+    self.tintedTextField.textColor = [UIColor orangeColor];
+    self.tintedTextField.placeholder = @"Placeholder text";
+    self.tintedTextField.returnKeyType = UIReturnKeyDone;
+    self.tintedTextField.clearButtonMode = UITextFieldViewModeNever;
+    self.tintedTextField.delegate = self;
+    self.tintedTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.tintedTextField];
+}
+
+-(void)configureSecureTextField
+{
+    self.secureTextField =[[UITextField alloc] initWithFrame:CGRectMake(0, 130, 320, 40)];
+    self.secureTextField.secureTextEntry = YES;
+    self.secureTextField.placeholder = @"Placeholder text";
+    self.secureTextField.returnKeyType = UIReturnKeyDone;
+    self.secureTextField.clearButtonMode = UITextFieldViewModeAlways;
+    self.secureTextField.delegate = self;
+    self.secureTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.secureTextField];
+}
+
+-(void)configureSpecificKeyboardTextField;
+{
+    self.specificKeyboardTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 180, 320, 40)];
+    self.specificKeyboardTextField.keyboardType = UIKeyboardTypeEmailAddress;
+    self.specificKeyboardTextField.placeholder = @"Placeholder text";
+    self.specificKeyboardTextField.returnKeyType = UIReturnKeyDone;
+    self.specificKeyboardTextField.delegate = self;
+    self.specificKeyboardTextField.borderStyle = UITextBorderStyleRoundedRect;
+    [self.view addSubview:self.specificKeyboardTextField];
+}
+
+-(void)configureCustomTextField
+{
+    self.customTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 230, 320, 40)];
+    self.customTextField.borderStyle = UITextBorderStyleNone;
+    self.customTextField.background = [UIImage imageNamed:@"text_field_background"];
+    
+    UIImage *purpleImage = [UIImage imageNamed:@"text_field_purple_right_view"];
+    UIButton *purpleImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    purpleImageButton.bounds = CGRectMake(0, 0, purpleImage.size.width, purpleImage.size.height);
+    purpleImageButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
+    [purpleImageButton setImage:purpleImage forState:UIControlStateNormal];
+    [purpleImageButton addTarget:self action:@selector(customTextFieldPurpleButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+    self.customTextField.rightView = purpleImageButton;
+    self.customTextField.rightViewMode = UITextFieldViewModeAlways;
+    
+    UIView *leftPaddingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 0)];
+    leftPaddingView.backgroundColor = [UIColor clearColor];
+    self.customTextField.leftView = leftPaddingView;
+    self.customTextField.leftViewMode = UITextFieldViewModeAlways;
+    self.customTextField.placeholder = @"Placeholder text";
+    self.customTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+    self.customTextField.returnKeyType = UIReturnKeyDone;
+    self.customTextField.delegate = self;
+    [self.view addSubview:self.customTextField];
+}
+
+#pragma mark - UITextFieldDelegate
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return YES;
+}
+
+#pragma mark - CustomTextField Actions
+
+- (void)customTextFieldPurpleButtonClicked {
+    self.customTextField.textColor = [UIColor purpleColor];
+    
+    NSLog(@"The custom text field's purple right view button was clicked.");
+}
+
 
 -(instancetype)initWithTextView
 {
