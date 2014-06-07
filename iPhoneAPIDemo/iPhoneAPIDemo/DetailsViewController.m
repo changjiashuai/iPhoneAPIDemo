@@ -1081,14 +1081,149 @@
 }
 
 
+#pragma mark - TextView
+
 -(instancetype)initWithTextView
 {
     if (self = [super init]) {
         //
         self.navigationItem.title = @"TextView";
+        [self configureTextView];
     }
     return self;
 }
+
+#pragma mark - Configuration
+
+-(void) configureTextView
+{
+    self.textView = [[UITextView alloc] initWithFrame:self.view.frame];
+    self.textView.autoresizingMask = UIViewAutoresizingFlexibleHeight;//自适应高度
+    
+    
+    self.textView.text = @"This is a UITextView that uses attributed text. You can programmatically modify the display of the text by making it bold, highlighted, underlined, tinted, and more. These attributes are defined in NSAttributedString.h. You can even embed attachments in an NSAttributedString!";
+    UIFontDescriptor *bodyFontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+    self.textView.font = [UIFont fontWithDescriptor:bodyFontDescriptor size:0];
+    self.textView.textColor = [UIColor blackColor];
+    self.textView.backgroundColor = [UIColor whiteColor];
+    self.textView.scrollEnabled = YES;
+    
+    NSMutableAttributedString *attributedText = [self.textView.attributedText mutableCopy];
+    NSString *text = self.textView.text;
+    
+    NSRange boldRange = [text rangeOfString:@"bold"];
+    NSRange highlightedRange = [text rangeOfString:@"highlighted"];
+    NSRange underlinedRange = [text rangeOfString:@"underlined"];
+    NSRange tintedRange = [text rangeOfString:@"tinted"];
+    
+    UIFontDescriptor *boldFontDescriptor = [self.textView.font.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold];
+    UIFont *boldFont = [UIFont fontWithDescriptor:boldFontDescriptor size:0];
+    [attributedText addAttribute:NSFontAttributeName value:boldFont range:boldRange];
+    
+    [attributedText addAttribute:NSBackgroundColorAttributeName value:[UIColor blueColor] range:highlightedRange];
+    
+    [attributedText addAttribute:NSUnderlineStyleAttributeName value:@(NSUnderlineStyleSingle) range:underlinedRange];
+    
+    [attributedText addAttribute:NSForegroundColorAttributeName value:[UIColor orangeColor] range:tintedRange];
+    
+    NSTextAttachment *textAttachment = [[NSTextAttachment alloc] init];
+    UIImage *image = [UIImage imageNamed:@"text_view_attachment"];
+    textAttachment.image = image;
+    textAttachment.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
+    NSAttributedString *textAttachmentString = [NSAttributedString attributedStringWithAttachment:textAttachment];
+    [attributedText appendAttributedString:textAttachmentString];
+    
+    self.textView.attributedText = attributedText;
+    
+    self.textView.delegate = self;
+    [self.view addSubview:self.textView];
+}
+
+- (void)adjustTextViewSelection:(UITextView *)textView
+{
+    [textView layoutIfNeeded];
+    CGRect caretRect = [textView caretRectForPosition:textView.selectedTextRange.end];
+    caretRect.size.height += textView.textContainerInset.bottom;
+    [textView scrollRectToVisible:caretRect animated:YES];
+}
+
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleKeyboardNotification:) name:UIKeyboardWillHideNotification object:nil];
+//}
+//
+//-(void)viewDidDisappear:(BOOL)animated
+//{
+//    [super viewDidDisappear:animated];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+//}
+
+#pragma mark - Keyboard Event Notifications
+
+-(void)handleKeyboardNotification:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    UIViewAnimationCurve animationCurve = [userInfo[UIKeyboardAnimationCurveUserInfoKey] unsignedIntegerValue];
+    
+    UIViewAnimationOptions animationOptions = UIViewKeyframeAnimationOptionBeginFromCurrentState;
+    if (animationCurve == UIViewAnimationCurveEaseIn) {
+        animationOptions |= UIViewAnimationOptionCurveEaseIn;
+    }else if (animationCurve == UIViewAnimationOptionCurveEaseInOut){
+        animationOptions |= UIViewAnimationOptionCurveEaseInOut;
+    }else if (animationCurve == UIViewAnimationOptionCurveEaseOut){
+        animationOptions |= UIViewAnimationOptionCurveEaseOut;
+    }else if (animationCurve == UIViewAnimationOptionCurveLinear){
+        animationOptions |= UIViewAnimationOptionCurveLinear;
+    }
+    
+    NSTimeInterval animationDuration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    
+    CGRect keyboardScreenEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect keyboardScreenBeginFrame = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+    
+    CGRect keyboardViewEndFrame = [self.view convertRect:keyboardScreenEndFrame fromView:self.view.window];
+    CGRect keyboardViewBeginFrame = [self.view convertRect:keyboardScreenBeginFrame fromView:self.view.window];
+    CGFloat originDelta = keyboardViewEndFrame.origin.y - keyboardViewBeginFrame.origin.y;
+    
+    self.textViewBottomLayoutGuideConstraint = [[NSLayoutConstraint alloc] init];
+    self.textViewBottomLayoutGuideConstraint.constant -= originDelta;
+    [self.view setNeedsUpdateConstraints];
+    
+    [UIView animateWithDuration:animationDuration delay:0 options:animationOptions animations:^{
+        [self.view layoutIfNeeded];
+    } completion:nil];
+    
+    NSRange selectedRange = self.textView.selectedRange;
+    [self.textView scrollRangeToVisible:selectedRange];
+    
+}
+
+#pragma mark - UITextViewDelegate
+
+-(void)textViewDidBeginEditing:(UITextView *)textView
+{
+    UIBarButtonItem *doneBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(doneBarButtonItemClicked)];
+    [self.navigationItem setRightBarButtonItem:doneBarButtonItem animated:YES];
+    [self adjustTextViewSelection:textView];
+}
+
+
+#pragma mark - TextView Actions
+
+- (void)doneBarButtonItemClicked {
+    // Dismiss the keyboard by removing it as the first responder.
+    [self.textView resignFirstResponder];
+    
+    [self.navigationItem setRightBarButtonItem:nil animated:YES];
+}
+
+
+
+
+#pragma mark - WebView
 
 -(instancetype)initWithWebView
 {

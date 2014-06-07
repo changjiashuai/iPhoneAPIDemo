@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 };
 
 
-@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
+@interface DetailsViewController : UIViewController <UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate, UITextViewDelegate>
 
 #pragma mark - DatePicker
 @property (nonatomic, strong) UIDatePicker *datePicker;
@@ -74,6 +74,10 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 @property (nonatomic, strong) UITextField *secureTextField;
 @property (nonatomic, strong) UITextField *specificKeyboardTextField;
 @property (nonatomic, strong) UITextField *customTextField;
+
+#pragma mark - TextView
+@property (nonatomic, strong) UITextView *textView;
+@property (nonatomic, strong) NSLayoutConstraint *textViewBottomLayoutGuideConstraint;
 
 #pragma mark -
 -(instancetype)initWithActionSheet;
