@@ -930,20 +930,51 @@
 }
 
 
+#pragma mark - Switch
+
 -(instancetype)initWithSwitch
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"Switch";
+        [self configureDefaultSwitch];
+        [self configureTintedSwitch];
     }
     return self;
+}
+
+#pragma mark - Configuration
+
+-(void)configureDefaultSwitch
+{
+    self.defaultSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(134.5, 30, 51, 40)];
+    [self.defaultSwitch setOn:YES animated:YES];
+    [self.defaultSwitch addTarget:self action:@selector(switchValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.defaultSwitch];
+}
+
+-(void)configureTintedSwitch
+{
+    self.tintedSwitch = [[UISwitch alloc] initWithFrame:CGRectMake(134.5, 80, 51, 40)];
+    self.tintedSwitch.tintColor = [UIColor purpleColor];
+    self.tintedSwitch.onTintColor = [UIColor orangeColor];
+    self.tintedSwitch.thumbTintColor = [UIColor blueColor];
+    [self.tintedSwitch addTarget:self action:@selector(switchValueDidChange:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:self.tintedSwitch];
+}
+
+#pragma mark - Switch Actions
+
+-(void)switchValueDidChange:(UISwitch *)aSwitch
+{
+    NSLog(@"A switch changed its value: %@.", aSwitch);
 }
 
 -(instancetype)initWithTextField
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"TextField";
     }
     return self;
 }
@@ -952,7 +983,7 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"TextView";
     }
     return self;
 }
@@ -961,7 +992,7 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"WebView";
     }
     return self;
 }
@@ -970,7 +1001,7 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"SearchBar";
     }
     return self;
 }
@@ -979,7 +1010,7 @@
 {
     if (self = [super init]) {
         //
-        self.navigationItem.title = @"";
+        self.navigationItem.title = @"ToolBar";
     }
     return self;
 }

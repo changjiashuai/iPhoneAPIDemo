@@ -64,6 +64,10 @@ typedef NS_ENUM(NSInteger, PickerViewControllerColorComponent){
 @property (nonatomic, strong) UILabel *tintedStepperLabel;
 @property (nonatomic, strong) UILabel *customStepperLabel;
 
+#pragma mark - Switch
+@property (nonatomic, strong) UISwitch *defaultSwitch;
+@property (nonatomic, strong) UISwitch *tintedSwitch;
+
 #pragma mark -
 -(instancetype)initWithActionSheet;
 -(instancetype)initWithActivityIndicator;
